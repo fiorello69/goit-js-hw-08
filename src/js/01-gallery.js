@@ -4,7 +4,6 @@ import SimpleLightbox from 'simplelightbox';
 // Change code below this line
 
 const galleryList = document.querySelector('.gallery');
-let instance = null;
 
 galleryItems.forEach(item => {
   const galleryItem = document.createElement('li');
@@ -17,8 +16,8 @@ galleryItems.forEach(item => {
   const galleryImage = document.createElement('img');
   galleryImage.classList.add('gallery__image');
   galleryImage.src = item.preview;
-  galleryImage.setAttribute('data-source', item.original);
   galleryImage.alt = item.description;
+  galleryImage.setAttribute('data-source', item.original);
 
   galleryLink.appendChild(galleryImage);
   galleryItem.appendChild(galleryLink);
@@ -26,22 +25,7 @@ galleryItems.forEach(item => {
   galleryList.appendChild(galleryItem);
 });
 
-galleryList.addEventListener('click', e => {
-  e.preventDefault();
-
-  if (e.target.tagName === 'IMG') {
-    const source = e.target.dataset.source;
-
-    instance = basicLightbox.create(
-      `<img src="${source}" width="800" height="600" />`
-    );
-    instance.show();
-  }
+new SimpleLightbox('.gallery__item a', {
+  captionsData: 'alt',
+  captionDelay: 250,
 });
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && instance) {
-    instance.close();
-  }
-});
-console.log(galleryItems);
